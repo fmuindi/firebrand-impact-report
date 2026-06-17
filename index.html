@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Firebrand Nation · 2026 Impact Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════════════
+   TOKENS
+══════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --fire-dark:#1a0a00; --fire-mid:#2d1200; --fire-deep:#3d1a00;
+  --gold:#F5A623; --orange:#c4600a; --red:#e8470a;
+  --cream:#fdf8f0; --warm:#fff8ed; --page-bg:#f4ede0;
+  --text-dark:#140800; --text-body:#3a1e00;
+  --text-muted:#6b4c20; --text-caption:#8a6535;
+  --r18:18px; --r10:10px; --r7:7px;
+  --shxl:0 20px 80px rgba(0,0,0,.2);
+  --mathare-num:#9a4200;
+  --mukuru-num:#0e5c8a;
+  --knox-num:#5e28b0;
+}
+html{scroll-behavior:smooth;scroll-padding-top:60px}
+body{font-family:'Inter',sans-serif;background:var(--page-bg);color:var(--text-dark);line-height:1.65;-webkit-font-smoothing:antialiased;padding-bottom:72px}
+h1,h2,h3{font-family:'Merriweather',Georgia,serif}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit;text-decoration:none}
+
+/* ══ STICKY BAR ══ */
+#stickyBar{
+  position:fixed;bottom:0;left:0;right:0;z-index:9999;
+  background:linear-gradient(90deg,var(--fire-dark),var(--fire-mid));
+  border-top:2px solid var(--gold);
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;padding:12px 20px;
+  box-shadow:0 -4px 28px rgba(0,0,0,.45);
+  transform:translateY(100%);
+  transition:transform .4s cubic-bezier(.4,0,.2,1);
+}
+#stickyBar.show{transform:translateY(0)}
+.sb-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.4;flex:1;min-width:0}
+.sb-text strong{color:var(--gold);display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-btn{flex-shrink:0;background:linear-gradient(135deg,var(--orange),var(--red));color:#fff;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:11px 22px;border-radius:8px;white-space:nowrap;box-shadow:0 4px 14px rgba(228,71,10,.45);transition:opacity .15s}
+.sb-btn:hover{opacity:.88}
+
+/* ══ HERO ══ */
+.hero{background:linear-gradient(160deg,#140800 0%,#2d1200 50%,#3d1a00 100%);padding:80px 20px 70px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(245,166,35,.13) 0%,transparent 65%),radial-gradient(ellipse 40% 30% at 80% 80%,rgba(228,71,10,.08) 0%,transparent 60%);pointer-events:none}
+.hero-z{position:relative;z-index:1}
+.hero-logo{display:block;margin:0 auto 24px;width:148px;max-width:60vw}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:24px;height:1px;background:var(--gold);opacity:.6}
+.hero h1{font-size:clamp(32px,7vw,68px);color:#fff;line-height:1.1;margin-bottom:20px;font-weight:900;letter-spacing:-.5px}
+.hero h1 em{color:var(--gold);font-style:italic}
+.hero-sub{font-size:clamp(15px,2.5vw,18px);color:rgba(255,248,237,.88);max-width:540px;margin:0 auto 40px;line-height:1.8;font-weight:300}
+.hero-ctas{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:48px}
+.hero-give{display:inline-block;background:linear-gradient(135deg,var(--orange),var(--red));color:#fff;font-size:clamp(12px,2vw,15px);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:15px 32px;border-radius:10px;box-shadow:0 6px 28px rgba(228,71,10,.5);transition:opacity .15s,transform .15s}
+.hero-give:hover{opacity:.88;transform:translateY(-2px)}
+.hero-learn{font-size:14px;font-weight:600;color:rgba(255,248,237,.7);border-bottom:1px solid rgba(255,248,237,.3);padding-bottom:2px;transition:color .15s}
+.hero-learn:hover{color:#fff}
+.hero-motto{margin:0 auto;max-width:min(340px,90vw);border-radius:12px;overflow:hidden;box-shadow:0 6px 36px rgba(0,0,0,.5)}
+.hero-motto img{width:100%}
+
+/* ══ TOTALS BAND ══ */
+.totals-band{background:linear-gradient(135deg,var(--orange) 0%,var(--gold) 50%,#e07010 100%)}
+.totals-band-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr)}
+.t-pill{padding:24px 14px;text-align:center;border-right:1px solid rgba(255,255,255,.2)}
+.t-pill:last-child{border-right:none}
+.t-num{font-family:'Merriweather',serif;font-size:clamp(18px,2.8vw,32px);font-weight:900;color:#fff;line-height:1;display:block;margin-bottom:5px}
+.t-lbl{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.85);line-height:1.35}
+
+/* ══ SECTION INTRO ══ */
+.section-intro{padding:72px 20px 44px;text-align:center}
+.eyebrow{display:inline-block;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--orange);margin-bottom:12px}
+.section-intro h2{font-family:'Merriweather',serif;font-size:clamp(26px,4vw,44px);color:var(--fire-dark);line-height:1.2;margin-bottom:14px;font-weight:900}
+.section-intro .lead{font-size:clamp(15px,2vw,17px);color:var(--text-body);max-width:560px;margin:0 auto;line-height:1.85;font-weight:300}
+
+/* ══ CRUSADE CARDS ══ */
+.crusade-section{padding:0 16px 80px}
+.crusade-card{max-width:1120px;margin:0 auto;background:#fff;border-radius:var(--r18);overflow:hidden;box-shadow:var(--shxl)}
+
+/* Header */
+.card-header{padding:36px 32px 28px;position:relative;overflow:hidden}
+.card-header::after{content:'';position:absolute;right:-60px;top:-60px;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,.04);pointer-events:none}
+.card-hrow{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.card-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;display:block}
+.card-title{font-family:'Merriweather',serif;font-size:clamp(22px,3.5vw,36px);color:#fff;line-height:1.15;font-weight:900;margin-bottom:6px}
+.card-meta{font-size:12px;color:rgba(255,255,255,.55);letter-spacing:.4px;line-height:1.5}
+.hero-stat{text-align:right;flex-shrink:0}
+.hs-num{font-family:'Merriweather',serif;font-size:clamp(44px,8vw,88px);font-weight:900;line-height:.92;display:block;letter-spacing:-2px}
+.hs-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,.6);display:block;margin-top:6px}
+.hs-sub{font-size:11px;color:rgba(255,255,255,.4);display:block;margin-top:2px}
+
+/* Image strip — 2-col on mobile, 4-col on desktop */
+.img-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;height:210px;background:var(--fire-dark)}
+.img-strip img{width:100%;height:100%;object-fit:cover;object-position:center}
+
+/* Card body */
+.card-body{padding:32px 32px 24px}
+
+/* Primary stats */
+.primary-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.pstat{border-radius:12px;padding:24px 14px;text-align:center}
+.ps-num{font-family:'Merriweather',serif;font-size:clamp(24px,4vw,40px);font-weight:900;line-height:1;display:block;margin-bottom:5px}
+.ps-lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);line-height:1.3}
+
+/* Secondary stats */
+.secondary-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px}
+.sstat{border-radius:var(--r7);padding:14px 10px;text-align:center;border:1px solid rgba(0,0,0,.08);background:var(--page-bg)}
+.ss-num{font-family:'Merriweather',serif;font-size:clamp(16px,2.5vw,20px);font-weight:700;line-height:1;display:block;margin-bottom:4px}
+.ss-lbl{font-size:10px;font-weight:500;color:var(--text-caption);text-transform:uppercase;letter-spacing:.7px;line-height:1.3}
+
+/* Cost badge */
+.cost-row{display:flex;gap:10px;flex-wrap:wrap}
+.cost-badge{display:inline-flex;align-items:center;gap:6px;border-radius:20px;padding:8px 16px;font-size:13px;font-weight:700;line-height:1.2;border:1.5px solid currentColor}
+.cost-badge .cbl{font-weight:400;font-size:12px;opacity:.75}
+
+/* Card footer */
+.card-footer{padding:20px 32px 24px;background:var(--cream);border-top:1px solid rgba(0,0,0,.07);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.card-footer p{font-size:14px;color:var(--text-body);line-height:1.7;max-width:600px;font-weight:300}
+.give-btn{flex-shrink:0;display:inline-block;color:#fff;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:13px 26px;border-radius:8px;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.22);transition:opacity .15s,transform .15s}
+.give-btn:hover{opacity:.88;transform:translateY(-1px)}
+
+/* Themes */
+.mathare .card-header{background:linear-gradient(135deg,#1a0a00,#3d1a00)}
+.mathare .card-eyebrow{color:var(--gold)}
+.mathare .hs-num{color:var(--gold)}
+.mathare .pstat{background:rgba(245,166,35,.08);border:1.5px solid rgba(245,166,35,.22)}
+.mathare .ps-num{color:var(--mathare-num)}
+.mathare .cost-badge{color:var(--orange);border-color:rgba(196,96,10,.3);background:rgba(196,96,10,.06)}
+.mathare .give-btn{background:linear-gradient(135deg,var(--orange),var(--red))}
+
+.mukuru .card-header{background:linear-gradient(135deg,#081622,#0e2236)}
+.mukuru .card-eyebrow{color:#4ab8f0}
+.mukuru .hs-num{color:#4ab8f0}
+.mukuru .pstat{background:rgba(74,184,240,.07);border:1.5px solid rgba(74,184,240,.2)}
+.mukuru .ps-num{color:var(--mukuru-num)}
+.mukuru .cost-badge{color:#0e6ea0;border-color:rgba(14,110,160,.3);background:rgba(14,110,160,.06)}
+.mukuru .give-btn{background:linear-gradient(135deg,#0e6ea0,#1a96d0)}
+
+.knoxville .card-header{background:linear-gradient(135deg,#130a22,#221040)}
+.knoxville .card-eyebrow{color:#a87ef0}
+.knoxville .hs-num{color:#a87ef0}
+.knoxville .pstat{background:rgba(168,126,240,.07);border:1.5px solid rgba(168,126,240,.2)}
+.knoxville .ps-num{color:var(--knox-num)}
+.knoxville .cost-badge{color:#5e28b0;border-color:rgba(94,40,176,.3);background:rgba(94,40,176,.06)}
+.knoxville .give-btn{background:linear-gradient(135deg,#6a30c8,#9256e8)}
+
+/* ══ GRAND TOTALS ══ */
+.grand-section{background:linear-gradient(160deg,#0e0600,#1a0a00 40%,#2d1200 100%);padding:88px 20px 84px;position:relative;overflow:hidden}
+.grand-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 45% at 50% 50%,rgba(245,166,35,.07) 0%,transparent 70%);pointer-events:none}
+.grand-inner{position:relative;z-index:1;max-width:1120px;margin:0 auto}
+.grand-heading{text-align:center;margin-bottom:52px}
+.grand-heading .eyebrow{color:var(--gold)}
+.grand-heading h2{font-family:'Merriweather',serif;font-size:clamp(26px,4vw,44px);color:#fff;line-height:1.15;font-weight:900;margin-bottom:12px}
+.grand-heading h2 em{color:var(--gold);font-style:italic}
+.grand-heading p{font-size:clamp(14px,2vw,17px);color:rgba(255,248,237,.72);max-width:520px;margin:0 auto;line-height:1.8;font-weight:300}
+.grand-top{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
+.gt-card{background:rgba(255,255,255,.05);border:1px solid rgba(245,166,35,.18);border-radius:14px;padding:28px 14px;text-align:center;transition:background .2s}
+.gt-card:hover{background:rgba(245,166,35,.07)}
+.gt-num{font-family:'Merriweather',serif;font-size:clamp(26px,4vw,46px);font-weight:900;color:var(--gold);line-height:1;display:block;margin-bottom:7px}
+.gt-lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.6);line-height:1.35}
+.grand-support{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:52px}
+.gs-pill{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:18px 10px;text-align:center}
+.gs-num{font-family:'Merriweather',serif;font-size:clamp(15px,2vw,20px);font-weight:700;color:rgba(255,255,255,.85);display:block;margin-bottom:4px;line-height:1}
+.gs-lbl{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.45);line-height:1.35}
+.grand-cta{background:rgba(245,166,35,.07);border:1.5px solid rgba(245,166,35,.25);border-radius:16px;padding:40px 32px;text-align:center}
+.grand-cta h3{font-family:'Merriweather',serif;font-size:clamp(20px,3.5vw,32px);color:#fff;font-weight:900;margin-bottom:12px;line-height:1.3}
+.grand-cta h3 em{color:var(--gold);font-style:italic}
+.grand-cta p{font-size:clamp(14px,2vw,16px);color:rgba(255,248,237,.72);max-width:540px;margin:0 auto 28px;line-height:1.85;font-weight:300}
+.grand-give{display:inline-block;background:linear-gradient(135deg,var(--orange),var(--red));color:#fff;font-size:clamp(12px,2vw,15px);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:16px 44px;border-radius:10px;box-shadow:0 6px 32px rgba(228,71,10,.5);transition:opacity .15s,transform .15s}
+.grand-give:hover{opacity:.88;transform:translateY(-2px)}
+
+/* ══ FINANCIAL TRANSPARENCY ══ */
+.fin-section{background:#fff;padding:88px 20px 84px}
+.fin-inner{max-width:1120px;margin:0 auto}
+.fin-heading{text-align:center;margin-bottom:60px}
+.fin-heading h2{font-family:'Merriweather',serif;font-size:clamp(26px,4vw,44px);color:var(--fire-dark);font-weight:900;margin-bottom:12px;line-height:1.2}
+.fin-heading p{font-size:clamp(14px,2vw,16px);color:var(--text-muted);max-width:560px;margin:0 auto;line-height:1.8}
+
+/* main two-col layout */
+.fin-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start}
+
+/* Donut card */
+.fin-donut-card{background:var(--warm);border-radius:var(--r18);padding:36px 28px;box-shadow:0 4px 28px rgba(0,0,0,.07)}
+.fin-donut-card h3{font-family:'Merriweather',serif;font-size:clamp(18px,2.5vw,22px);color:var(--fire-dark);margin-bottom:32px;font-weight:900}
+.donut-wrap{display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:20px}
+.donut-svg-wrap{position:relative;flex-shrink:0;width:180px;height:180px}
+.donut-svg-wrap svg{width:180px;height:180px}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.donut-pct{font-family:'Merriweather',serif;font-size:36px;font-weight:900;color:var(--fire-dark);line-height:1;transition:all .3s}
+.donut-pct-lbl{font-size:12px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+.donut-legend{display:flex;flex-direction:column;gap:14px;min-width:160px}
+.dl-item{display:flex;align-items:center;gap:12px;cursor:pointer;padding:8px 10px;border-radius:8px;transition:background .15s}
+.dl-item:hover,.dl-item.active{background:rgba(0,0,0,.05)}
+.dl-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;transition:transform .2s}
+.dl-item:hover .dl-dot,.dl-item.active .dl-dot{transform:scale(1.25)}
+.dl-label{font-size:13px;font-weight:600;color:var(--text-body)}
+.dl-pct{font-size:13px;font-weight:700;margin-left:auto;color:var(--text-dark)}
+.donut-hint{text-align:center;font-size:12px;color:var(--text-caption)}
+
+/* Accountability card */
+.fin-acc-card{background:var(--warm);border-radius:var(--r18);padding:36px 28px;box-shadow:0 4px 28px rgba(0,0,0,.07);display:flex;flex-direction:column;gap:0}
+.fin-acc-card h3{font-family:'Merriweather',serif;font-size:clamp(18px,2.5vw,22px);color:var(--fire-dark);margin-bottom:24px;font-weight:900}
+.acc-list{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.acc-item{display:flex;align-items:flex-start;gap:14px;background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:12px;padding:16px 18px;transition:box-shadow .2s,transform .2s}
+.acc-item:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);transform:translateY(-1px)}
+.acc-icon{flex-shrink:0;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(196,96,10,.1)}
+.acc-icon svg{width:16px;height:16px}
+.acc-text strong{font-size:14px;font-weight:700;color:var(--text-dark);display:block;margin-bottom:3px;line-height:1.3}
+.acc-text span{font-size:13px;color:var(--text-muted);line-height:1.5}
+.acc-btns{display:flex;gap:12px;flex-wrap:wrap}
+.acc-btn-primary{flex:1;min-width:140px;display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--orange),var(--red));color:#fff;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:13px 18px;border-radius:30px;transition:opacity .15s,transform .15s;text-align:center}
+.acc-btn-primary:hover{opacity:.88;transform:translateY(-1px)}
+.acc-btn-outline{flex:1;min-width:140px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:2px solid var(--orange);color:var(--orange);background:transparent;font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:11px 18px;border-radius:30px;transition:all .15s;text-align:center}
+.acc-btn-outline:hover{background:var(--orange);color:#fff}
+
+/* cost-per-soul highlight strip */
+.cost-strip{background:var(--warm);border-radius:var(--r18);padding:28px 24px;box-shadow:0 4px 28px rgba(0,0,0,.07);margin-top:32px}
+.cost-strip h3{font-family:'Merriweather',serif;font-size:18px;font-weight:900;color:var(--fire-dark);margin-bottom:20px;text-align:center}
+.cost-bars{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cbar{text-align:center}
+.cbar-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:10px}
+.cbar-track{height:8px;border-radius:4px;background:rgba(0,0,0,.08);margin-bottom:8px;overflow:hidden}
+.cbar-fill{height:100%;border-radius:4px}
+.cbar-val{font-family:'Merriweather',serif;font-size:22px;font-weight:900;line-height:1}
+.cbar-sub{font-size:11px;color:var(--text-caption);margin-top:3px}
+
+/* ══ SCRIPTURE + FOOTER ══ */
+.scripture-band{background:linear-gradient(135deg,var(--orange),var(--gold) 50%,#d06010);padding:36px 20px;text-align:center}
+.scripture-band p{font-family:'Merriweather',serif;font-size:clamp(14px,2vw,18px);color:#fff;font-style:italic;line-height:1.8;max-width:660px;margin:0 auto 8px;font-weight:700}
+.scripture-band .ref{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.8)}
+.site-footer{background:var(--fire-dark);padding:40px 20px 28px;text-align:center}
+.site-footer img{display:block;margin:0 auto 14px;width:96px;opacity:.72}
+.ft-line{font-size:12px;color:#c8a97a;margin-bottom:4px}
+.ft-small{font-size:11px;color:#7a5a30;line-height:1.6}
+
+/* ══ REVEAL ══ */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1)}
+.reveal.vis{opacity:1;transform:none}
+
+/* ══════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+══════════════════════════════════════ */
+
+/* ── 960px: transition to 2-col totals band, compact headers ── */
+@media(max-width:960px){
+  .totals-band-inner{grid-template-columns:repeat(3,1fr)}
+  .t-pill{border-right:none;border-bottom:1px solid rgba(255,255,255,.15)}
+  .t-pill:nth-child(3n){border-right:none}
+  .grand-top{grid-template-columns:repeat(2,1fr)}
+  .grand-support{grid-template-columns:repeat(3,1fr)}
+  .fin-grid{grid-template-columns:1fr}
+  .cost-bars{grid-template-columns:repeat(3,1fr)}
+}
+
+/* ── 720px: single-col card stats, 2-col images ── */
+@media(max-width:720px){
+  .card-header{padding:28px 20px 22px}
+  .card-body{padding:24px 20px 18px}
+  .card-footer{padding:18px 20px 22px;flex-direction:column;align-items:stretch}
+  .give-btn{text-align:center;padding:14px}
+  .card-hrow{flex-direction:column-reverse;gap:14px}
+  .hero-stat{text-align:left}
+  .hs-num{font-size:clamp(40px,12vw,68px)}
+  .img-strip{grid-template-columns:repeat(2,1fr);height:200px}
+  .primary-stats{grid-template-columns:repeat(3,1fr);gap:10px}
+  .ps-num{font-size:clamp(20px,5vw,32px)}
+  .secondary-stats{grid-template-columns:repeat(3,1fr);gap:8px}
+  .grand-top{grid-template-columns:repeat(2,1fr)}
+  .grand-support{grid-template-columns:repeat(2,1fr)}
+  .grand-cta{padding:28px 20px}
+  .fin-donut-card,.fin-acc-card{padding:28px 20px}
+  .cost-bars{grid-template-columns:1fr}
+  .cost-strip{padding:22px 18px}
+  .donut-wrap{gap:20px}
+  .donut-svg-wrap{width:160px;height:160px}
+  .donut-svg-wrap svg{width:160px;height:160px}
+}
+
+/* ── 480px: stacked everything, full-width buttons ── */
+@media(max-width:480px){
+  body{padding-bottom:60px}
+  .hero{padding:60px 16px 56px}
+  .hero-give{width:100%;text-align:center;padding:14px 20px}
+  .hero-ctas{flex-direction:column;align-items:stretch;gap:10px}
+  .hero-learn{text-align:center}
+  .crusade-section{padding:0 12px 64px}
+  .totals-band-inner{grid-template-columns:repeat(2,1fr)}
+  .t-pill{border-right:none;border-bottom:1px solid rgba(255,255,255,.15)}
+  .primary-stats{grid-template-columns:1fr;gap:10px}
+  .secondary-stats{grid-template-columns:repeat(2,1fr);gap:8px}
+  .img-strip{grid-template-columns:repeat(2,1fr);height:160px}
+  .grand-top{grid-template-columns:1fr 1fr}
+  .grand-support{grid-template-columns:repeat(2,1fr)}
+  .grand-give{width:100%;text-align:center;padding:15px}
+  .acc-btns{flex-direction:column}
+  .acc-btn-primary,.acc-btn-outline{min-width:0;width:100%}
+  .donut-wrap{flex-direction:column;gap:24px}
+  .donut-legend{width:100%}
+  .sb-text{display:none}
+  .sb-btn{width:100%;text-align:center}
+  #stickyBar{padding:10px 14px}
+  .section-intro{padding:56px 16px 36px}
+  .fin-section{padding:64px 16px 60px}
+  .fin-heading{margin-bottom:40px}
+}
+</style>
+</head>
+<body>
+
+<!-- STICKY BAR -->
+<div id="stickyBar">
+  <div class="sb-text">
+    <strong>4,170 souls won. The next crusade is coming.</strong>
+    Your gift funds the gospel in Nairobi &amp; beyond.
+  </div>
+  <a href="https://secure.givelively.org/donate/eternal-lifes-restoration-outreach/mega-crusade" target="_blank" class="sb-btn">Give Now &rarr;</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-z">
+    <img class="hero-logo" src="https://elro-images.s3.us-east-2.amazonaws.com/tosm/firebrand/firebrand logo.png" alt="Firebrand Nation"/>
+    <span class="hero-eyebrow">2026 Annual Impact Report</span>
+    <h1>The harvest<br/><em>was plentiful.</em></h1>
+    <p class="hero-sub">Three crusades. Two nations. Over 20,000 lives reached with the gospel, food, and the love of Christ — because of donors like you.</p>
+    <div class="hero-ctas">
+      <a href="https://secure.givelively.org/donate/eternal-lifes-restoration-outreach/mega-crusade" target="_blank" class="hero-give">Partner With the Next Crusade</a>
+      <a href="#crusades" class="hero-learn">See the full impact &darr;</a>
+    </div>
+    <div class="hero-motto">
+      <img src="https://images.givelively.org/nonprofits/00177817-4cd8-4247-b8f3-b3904f29ad95/social_images/eternal-lifes-restoration-outreach_original_2974451177a4e7525014341b4cd9ac5510db4d869f6205fd273db6843503c672_social.png" alt="Alone a Flame — Together a Fire"/>
+    </div>
+  </div>
+</section>
+
+<!-- TOTALS BAND -->
+<div class="totals-band">
+  <div class="totals-band-inner">
+    <div class="t-pill"><span class="t-num">20,983</span><span class="t-lbl">People Reached</span></div>
+    <div class="t-pill"><span class="t-num">4,170</span><span class="t-lbl">Souls Won</span></div>
+    <div class="t-pill"><span class="t-num">1,646</span><span class="t-lbl">Salvations</span></div>
+    <div class="t-pill"><span class="t-num">11,766</span><span class="t-lbl">People Fed</span></div>
+    <div class="t-pill"><span class="t-num">1,440</span><span class="t-lbl">Volunteers</span></div>
+    <div class="t-pill"><span class="t-num">44,974 lbs</span><span class="t-lbl">Food Distributed</span></div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div class="section-intro" id="crusades">
+  <span class="eyebrow">Three Crusades · One Mission</span>
+  <h2>Every number is a name.</h2>
+  <p class="lead">Behind every statistic on this page is a person — a family, a community — whose life was touched by the gospel. Here is the full account of what your support made possible in 2026.</p>
+</div>
+
+<!-- ══ MATHARE ══ -->
+<section class="crusade-section reveal">
+  <div class="crusade-card mathare">
+    <div class="card-header">
+      <div class="card-hrow">
+        <div>
+          <span class="card-eyebrow">Kenya &middot; Nairobi</span>
+          <h2 class="card-title">Mathare 7-Day<br/>Mega Crusade</h2>
+          <p class="card-meta">7 nights &middot; Mathare, Nairobi &middot; 2026</p>
+        </div>
+        <div class="hero-stat">
+          <span class="hs-num">5,136</span>
+          <span class="hs-label">People Reached</span>
+          <span class="hs-sub">with the gospel</span>
+        </div>
+      </div>
+    </div>
+    <div class="img-strip">
+      <img src="https://ik.imagekit.io/vddpcxj7e/firebrand/crusade/FNM04666.jpg?tr=f-auto,q-auto,w-600" alt="Mathare night"/>
+      <img src="https://ik.imagekit.io/vddpcxj7e/firebrand/fellowship-missions/DSC05517.jpg?tr=f-auto,q-auto,w-600" alt="Mathare crowd"/>
+      <img src="https://ik.imagekit.io/vddpcxj7e/firebrand/crusade/FNM04997.jpg?tr=f-auto,q-auto,w-600" alt="Mathare altar"/>
+      <img src="https://ik.imagekit.io/vddpcxj7e/firebrand/fellowship-missions/FNM04869.jpg?tr=f-auto,q-auto,w-600" alt="Mathare food"/>
+    </div>
+    <div class="card-body">
+      <div class="primary-stats">
+        <div class="pstat mathare"><span class="ps-num">1,097</span><span class="ps-lbl">Souls Won</span></div>
+        <div class="pstat mathare"><span class="ps-num">450</span><span class="ps-lbl">Salvations</span></div>
+        <div class="pstat mathare"><span class="ps-num">1,566</span><span class="ps-lbl">Received Food</span></div>
+      </div>
+      <div class="secondary-stats">
+        <div class="sstat"><span class="ss-num" style="color:var(--mathare-num)">875</span><span class="ss-lbl">One-on-One Evangelism</span></div>
+        <div class="sstat"><span class="ss-num" style="color:var(--mathare-num)">345</span><span class="ss-lbl">Volunteers</span></div>
+        <div class="sstat"><span class="ss-num" style="color:var(--mathare-num)">84</span><span class="ss-lbl">Leaders &amp; Pastors</span></div>
+      </div>
+      <div class="cost-row">
+        <span class="cost-badge" style="color:var(--orange);border-color:rgba(196,96,10,.3);background:rgba(196,96,10,.06)">$38 <span class="cbl">per soul won</span></span>
+        <span class="cost-badge" style="color:var(--orange);border-color:rgba(196,96,10,.3);background:rgba(196,96,10,.06)">$8 <span class="cbl">to reach one person</span></span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <p>Seven nights in one of Nairobi's most densely populated communities. 1,097 families changed forever — at just $38 per soul won.</p>
+      <a href="https://secure.givelively.org/donate/eternal-lifes-restoration-outreach/mega-crusade" target="_blank" class="give-btn">Give Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MUKURU ══ -->
+<section class="crusade-section reveal">
+  <div class="crusade-card mukuru">
+    <div class="card-header">
+      <div class="card-hrow">
+        <div>
+          <span class="card-eyebrow">Kenya &middot; Nairobi</span>
+          <h2 class="card-title">Mukuru Kwa Reuben<br/>Mega Crusade</h2>
+          <p class="card-meta">4 nights &middot; Mukuru kwa Reuben Stadium &middot; June 11–14, 2026</p>
+        </div>
+        <div class="hero-stat">
+          <span class="hs-num">12,000</span>
+          <span class="hs-label">People Reached</span>
+          <span class="hs-sub">with the gospel</span>
+        </div>
+      </div>
+    </div>
+    <div class="img-strip">
+      <img src="https://ik.imagekit.io/vddpcxj7e/firebrand/crusade2026-day4/IMG_9407-902135906.jpg?tr=f-auto,q-auto,w-600" alt="Mukuru night"/>
+      <img src="https://ik.imagekit.io/vddpcxj7e/firebrand/crusade2026-day4/IMG_95129379321.jpg?tr=f-auto,q-auto,w-600" alt="Mukuru worship"/>
+      <img src="https://ik.imagekit.io/vddpcxj7e/firebrand/crusade2026/IMG_7139902593402.jpg?tr=f-auto,q-auto,w-600" alt="Mukuru crowd"/>
+      <img src="https://ik.imagekit.io/vddpcxj7e/firebrand/crusade2026-day3/IMG_7778%20(1)-1170589254.jpg?tr=f-auto,q-auto,w-1200" alt="Mukuru panorama"/>
+    </div>
+    <div class="card-body">
+      <div class="primary-stats">
+        <div class="pstat mukuru"><span class="ps-num">2,899</span><span class="ps-lbl">Souls Won</span></div>
+        <div class="pstat mukuru"><span class="ps-num">1,022</span><span class="ps-lbl">Salvations</span></div>
+        <div class="pstat mukuru"><span class="ps-num">10,200</span><span class="ps-lbl">People Fed</span></div>
+      </div>
+      <div class="secondary-stats">
+        <div class="sstat"><span class="ss-num" style="color:var(--mukuru-num)">44,974 lbs</span><span class="ss-lbl">Food Distributed</span></div>
+        <div class="sstat"><span class="ss-num" style="color:var(--mukuru-num)">2,619</span><span class="ss-lbl">One-on-One Evangelism</span></div>
+        <div class="sstat"><span class="ss-num" style="color:var(--mukuru-num)">401</span><span class="ss-lbl">Volunteers</span></div>
+      </div>
+      <div class="cost-row">
+        <span class="cost-badge" style="color:#0e6ea0;border-color:rgba(14,110,160,.3);background:rgba(14,110,160,.06)">$2.50 <span class="cbl">to reach one person — a record</span></span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <p>A record-breaking 4-night crusade. 12,000 people reached with the gospel and 10,200 fed — at just $2.50 per person. The most cost-effective crusade in Firebrand Nation history.</p>
+      <a href="https://secure.givelively.org/donate/eternal-lifes-restoration-outreach/mega-crusade" target="_blank" class="give-btn">Give Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ KNOXVILLE ══ -->
+<section class="crusade-section reveal">
+  <div class="crusade-card knoxville">
+    <div class="card-header">
+      <div class="card-hrow">
+        <div>
+          <span class="card-eyebrow">United States &middot; Tennessee</span>
+          <h2 class="card-title">Knoxville Warming<br/>Center Crusade</h2>
+          <p class="card-meta">29 openings &middot; Knoxville, Tennessee &middot; 2026</p>
+        </div>
+        <div class="hero-stat">
+          <span class="hs-num">2,983</span>
+          <span class="hs-label">Souls Served</span>
+          <span class="hs-sub">across 29 openings</span>
+        </div>
+      </div>
+    </div>
+    <div class="img-strip">
+      <img src="https://ik.imagekit.io/vddpcxj7e/knoxville-crusade/2026-04-06%20at%2003.44.2710.jpeg?tr=f-auto,q-auto,w-600" alt="Knoxville center"/>
+      <img src="https://ik.imagekit.io/vddpcxj7e/knoxville-crusade/IMG_1787.jpg?tr=f-auto,q-auto,w-600" alt="Knoxville ministry"/>
+      <img src="https://ik.imagekit.io/vddpcxj7e/images/elro1.jpg?tr=f-auto,q-auto,w-600" alt="Knoxville outreach"/>
+      <img src="https://images.givelively.org/nonprofits/00177817-4cd8-4247-b8f3-b3904f29ad95/campaigns/women-s-clinic/background_images/women-s-clinic_processed_c0a7e43a24bc27bf807fad39873f38510e6cf5fd7dfdf4454ba90294b581809f_background_image.png" alt="Knoxville community"/>
+    </div>
+    <div class="card-body">
+      <div class="primary-stats">
+        <div class="pstat knoxville"><span class="ps-num">174</span><span class="ps-lbl">Salvations</span></div>
+        <div class="pstat knoxville"><span class="ps-num">348</span><span class="ps-lbl">Prayers Recorded</span></div>
+        <div class="pstat knoxville"><span class="ps-num">694</span><span class="ps-lbl">Volunteers</span></div>
+      </div>
+      <div class="secondary-stats">
+        <div class="sstat"><span class="ss-num" style="color:var(--knox-num)">29</span><span class="ss-lbl">Center Openings</span></div>
+        <div class="sstat"><span class="ss-num" style="color:var(--knox-num)">62+</span><span class="ss-lbl">Meals Provided</span></div>
+        <div class="sstat"><span class="ss-num" style="color:var(--knox-num)">451 hrs</span><span class="ss-lbl">Total Hours Open</span></div>
+      </div>
+      <div class="cost-row">
+        <span class="cost-badge" style="color:#5e28b0;border-color:rgba(94,40,176,.3);background:rgba(94,40,176,.06)">2,983 souls <span class="cbl">served across 29 nights</span></span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <p>29 nights of open doors, warm meals, and the gospel — 174 salvations on the streets of Knoxville, one life at a time.</p>
+      <a href="https://secure.givelively.org/donate/eternal-lifes-restoration-outreach/mega-crusade" target="_blank" class="give-btn">Give Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GRAND TOTALS ══ -->
+<section class="grand-section">
+  <div class="grand-inner">
+    <div class="grand-heading reveal">
+      <span class="eyebrow">Combined Impact · All Three Crusades</span>
+      <h2>Together, this is<br/><em>what we accomplished.</em></h2>
+      <p>Three crusades. Two countries. One mission. Here is the total picture of what your partnership produced in 2026.</p>
+    </div>
+    <div class="grand-top reveal">
+      <div class="gt-card"><span class="gt-num">20,983</span><span class="gt-lbl">People Reached<br/>with the Gospel</span></div>
+      <div class="gt-card"><span class="gt-num">4,170</span><span class="gt-lbl">Souls Won<br/>for the Kingdom</span></div>
+      <div class="gt-card"><span class="gt-num">1,646</span><span class="gt-lbl">Total<br/>Salvations</span></div>
+      <div class="gt-card"><span class="gt-num">11,766</span><span class="gt-lbl">People<br/>Fed</span></div>
+    </div>
+    <div class="grand-support reveal">
+      <div class="gs-pill"><span class="gs-num">44,974 lbs</span><span class="gs-lbl">Food Distributed</span></div>
+      <div class="gs-pill"><span class="gs-num">3,494</span><span class="gs-lbl">One-on-One Evangelism</span></div>
+      <div class="gs-pill"><span class="gs-num">1,440</span><span class="gs-lbl">Total Volunteers</span></div>
+      <div class="gs-pill"><span class="gs-num">84</span><span class="gs-lbl">Leaders &amp; Pastors</span></div>
+      <div class="gs-pill"><span class="gs-num">522</span><span class="gs-lbl">Prayers Recorded</span></div>
+      <div class="gs-pill"><span class="gs-num">3 cities</span><span class="gs-lbl">2 Countries · 1 Mission</span></div>
+    </div>
+    <div class="grand-cta reveal">
+      <h3>The fire moves next to<br/><em>Fuata Nyayo, Starehe.</em></h3>
+      <p>Our next crusade goes into a community of 20,000 residents in the heart of Nairobi — with the same gospel, the same food, and the same power. Will you be part of what comes next?</p>
+      <a href="https://secure.givelively.org/donate/eternal-lifes-restoration-outreach/mega-crusade" target="_blank" class="grand-give">Partner With Us &mdash; Give Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FINANCIAL TRANSPARENCY ══ -->
+<section class="fin-section">
+  <div class="fin-inner">
+
+    <div class="fin-heading reveal">
+      <span class="eyebrow">Stewardship &amp; Accountability</span>
+      <h2>Financial Transparency</h2>
+      <p>We believe in complete openness about how we steward every dollar entrusted to us. Your gift is handled with integrity, accountability, and a single-minded focus on the mission.</p>
+    </div>
+
+    <div class="fin-grid reveal">
+
+      <!-- LEFT: Donut chart -->
+      <div class="fin-donut-card">
+        <h3>Where Your Money Goes</h3>
+        <div class="donut-wrap">
+          <div class="donut-svg-wrap" id="donutWrap">
+            <svg viewBox="0 0 180 180" id="donutSvg" aria-label="Budget allocation donut chart">
+              <!-- bg track -->
+              <circle cx="90" cy="90" r="70" fill="none" stroke="#eee5d6" stroke-width="22"/>
+              <!-- Programs 85% — stroke-dasharray = 2πr = 439.8; 85% = 373.8 -->
+              <circle id="seg0" cx="90" cy="90" r="70" fill="none"
+                stroke="#c4600a" stroke-width="22"
+                stroke-dasharray="373.8 65.9"
+                stroke-dashoffset="109.9"
+                stroke-linecap="butt"
+                style="cursor:pointer;transition:stroke-width .2s,opacity .2s"/>
+              <!-- Admin 10% — 43.98 -->
+              <circle id="seg1" cx="90" cy="90" r="70" fill="none"
+                stroke="#4ab8f0" stroke-width="22"
+                stroke-dasharray="43.98 395.8"
+                stroke-dashoffset="-263.9"
+                stroke-linecap="butt"
+                style="cursor:pointer;transition:stroke-width .2s,opacity .2s"/>
+              <!-- Fundraising 5% — 21.99 -->
+              <circle id="seg2" cx="90" cy="90" r="70" fill="none"
+                stroke="#2db87a" stroke-width="22"
+                stroke-dasharray="21.99 417.8"
+                stroke-dashoffset="-307.9"
+                stroke-linecap="butt"
+                style="cursor:pointer;transition:stroke-width .2s,opacity .2s"/>
+            </svg>
+            <div class="donut-center">
+              <span class="donut-pct" id="donutPct">85%</span>
+              <span class="donut-pct-lbl" id="donutLbl">Programs</span>
+            </div>
+          </div>
+
+          <div class="donut-legend">
+            <div class="dl-item active" data-seg="0" data-pct="85%" data-lbl="Programs">
+              <span class="dl-dot" style="background:#c4600a"></span>
+              <span class="dl-label">Programs</span>
+              <span class="dl-pct">85%</span>
+            </div>
+            <div class="dl-item" data-seg="1" data-pct="10%" data-lbl="Administration">
+              <span class="dl-dot" style="background:#4ab8f0"></span>
+              <span class="dl-label">Administration</span>
+              <span class="dl-pct">10%</span>
+            </div>
+            <div class="dl-item" data-seg="2" data-pct="5%" data-lbl="Fundraising">
+              <span class="dl-dot" style="background:#2db87a"></span>
+              <span class="dl-label">Fundraising</span>
+              <span class="dl-pct">5%</span>
+            </div>
+          </div>
+        </div>
+        <p class="donut-hint">Hover or tap each segment to explore</p>
+      </div>
+
+      <!-- RIGHT: Accountability -->
+      <div class="fin-acc-card">
+        <h3>Our Impact &amp; Accountability</h3>
+        <div class="acc-list">
+          <div class="acc-item">
+            <div class="acc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c4600a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="acc-text">
+              <strong>85% of every dollar goes directly to programs</strong>
+              <span>Exceeding the Better Business Bureau's charity standards</span>
+            </div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c4600a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="acc-text">
+              <strong>Annual financial audits available to the public</strong>
+              <span>Comprehensive reviews conducted by independent firms</span>
+            </div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c4600a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="acc-text">
+              <strong>Registered 501(c)(3) nonprofit organization</strong>
+              <span>All donations are tax-deductible to the full extent of the law</span>
+            </div>
+          </div>
+          <div class="acc-item">
+            <div class="acc-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#c4600a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="acc-text">
+              <strong>Full financial reports published openly</strong>
+              <span>Transparency and trust are the foundation of our donor relationships</span>
+            </div>
+          </div>
+        </div>
+        <div class="acc-btns">
+          <a href="https://secure.givelively.org/donate/eternal-lifes-restoration-outreach/mega-crusade" target="_blank" class="acc-btn-primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Give Now
+          </a>
+          <a href="https://secure.givelively.org/donate/eternal-lifes-restoration-outreach" target="_blank" class="acc-btn-outline">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            View Full Reports
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cost-per-soul bar chart -->
+    <div class="cost-strip reveal">
+      <h3>Cost Efficiency Across Crusades</h3>
+      <div class="cost-bars">
+        <div class="cbar">
+          <div class="cbar-label">Mathare</div>
+          <div class="cbar-track"><div class="cbar-fill" style="width:42%;background:var(--orange)"></div></div>
+          <span class="cbar-val" style="color:var(--mathare-num)">$8</span>
+          <div class="cbar-sub">per person reached</div>
+        </div>
+        <div class="cbar">
+          <div class="cbar-label">Mukuru Kwa Reuben</div>
+          <div class="cbar-track"><div class="cbar-fill" style="width:13%;background:#4ab8f0"></div></div>
+          <span class="cbar-val" style="color:var(--mukuru-num)">$2.50</span>
+          <div class="cbar-sub">per person reached</div>
+        </div>
+        <div class="cbar">
+          <div class="cbar-label">Mathare · Per Soul</div>
+          <div class="cbar-track"><div class="cbar-fill" style="width:100%;background:var(--red)"></div></div>
+          <span class="cbar-val" style="color:var(--mathare-num)">$38</span>
+          <div class="cbar-sub">per soul won</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SCRIPTURE -->
+<div class="scripture-band">
+  <p>"The harvest is plentiful, but the laborers are few; therefore pray earnestly to the Lord of the harvest to send out laborers into his harvest."</p>
+  <span class="ref">Matthew 9:37&ndash;38</span>
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <img src="https://elro-images.s3.us-east-2.amazonaws.com/tosm/firebrand/firebrand logo.png" alt="Firebrand Nation"/>
+  <p class="ft-line">&copy; 2026 Firebrand Nation &middot; Nairobi, Kenya &amp; Knoxville, Tennessee</p>
+  <p class="ft-small">&ldquo;Alone a flame &mdash; together a fire!&rdquo;</p>
+  <p class="ft-small" style="margin-top:10px"><a href="https://secure.givelively.org/donate/eternal-lifes-restoration-outreach/mega-crusade" target="_blank" style="color:var(--gold);font-weight:600">Donate &rarr;</a></p>
+</footer>
+
+<script>
+// ── Sticky bar ──
+(function(){
+  var bar=document.getElementById('stickyBar');
+  var hero=document.querySelector('.hero');
+  if(!bar||!hero)return;
+  new IntersectionObserver(function(e){
+    bar.classList.toggle('show',!e[0].isIntersecting);
+  },{threshold:0.05}).observe(hero);
+})();
+
+// ── Scroll reveal ──
+(function(){
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('vis');} 
+    });
+  },{threshold:0.06}).observe && document.querySelectorAll('.reveal').forEach(function(el){
+    new IntersectionObserver(function(entries){
+      entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');}});
+    },{threshold:0.06}).observe(el);
+  });
+})();
+
+// ── Donut interactivity ──
+(function(){
+  var items=document.querySelectorAll('.dl-item');
+  var segs=[document.getElementById('seg0'),document.getElementById('seg1'),document.getElementById('seg2')];
+  var pctEl=document.getElementById('donutPct');
+  var lblEl=document.getElementById('donutLbl');
+  function activate(idx){
+    items.forEach(function(it,i){
+      it.classList.toggle('active',i===idx);
+    });
+    segs.forEach(function(s,i){
+      if(!s)return;
+      s.style.strokeWidth = i===idx ? '28' : '22';
+      s.style.opacity = i===idx ? '1' : '0.55';
+    });
+    var active=items[idx];
+    pctEl.textContent=active.dataset.pct;
+    lblEl.textContent=active.dataset.lbl;
+  }
+  items.forEach(function(it,i){
+    it.addEventListener('click',function(){activate(i);});
+    it.addEventListener('mouseenter',function(){activate(i);});
+  });
+  segs.forEach(function(s,i){
+    if(!s)return;
+    s.addEventListener('click',function(){activate(i);});
+    s.addEventListener('mouseenter',function(){activate(i);});
+  });
+  document.getElementById('donutWrap').addEventListener('mouseleave',function(){
+    activate(0);
+  });
+})();
+</script>
+</body>
+</html>
