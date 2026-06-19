@@ -7,6 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,700;0,900;1,700;1,900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="icon" type="image/x-icon" href="https://elro-images.s3.us-east-2.amazonaws.com/tosm/firebrand/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://elro-images.s3.us-east-2.amazonaws.com/tosm/firebrand/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://elro-images.s3.us-east-2.amazonaws.com/tosm/firebrand/favicon-32x32.png">
 <style>
 /* ════════════════════════════════════════
    RESET & TOKENS
@@ -20,8 +23,8 @@
   --text-muted:#6b4c20; --text-caption:#8a6535;
   --mathare-num:#9a4200; --mukuru-num:#0e5c8a; --knox-num:#5e28b0;
 }
-html{scroll-behavior:smooth;scroll-padding-top:64px}
-body{font-family:'Inter',sans-serif;background:var(--page-bg);color:var(--text-dark);line-height:1.65;-webkit-font-smoothing:antialiased;padding-bottom:68px}
+html{scroll-behavior:smooth;scroll-padding-top:64px;overflow-x:hidden}
+body{font-family:'Inter',sans-serif;background:var(--page-bg);color:var(--text-dark);line-height:1.65;-webkit-font-smoothing:antialiased;padding-bottom:68px;overflow-x:hidden}
 h1,h2,h3{font-family:'Merriweather',Georgia,serif}
 img{max-width:100%;height:auto;display:block}
 a{color:inherit;text-decoration:none}
@@ -275,7 +278,7 @@ a{color:inherit;text-decoration:none}
 @media(min-width:640px){
   .hero-ctas{flex-direction:row;justify-content:center}
   .hero-give{display:inline-block;width:auto;max-width:none}
-  .totals-band-inner{grid-template-columns:repeat(,1fr);max-width:1000px}
+  .totals-band-inner{grid-template-columns:repeat(5,1fr);max-width:1000px}
   .t-pill{border-right:1px solid rgba(255,255,255,.2);border-bottom:none;padding:24px 14px}
   .t-pill:last-child{border-right:none}
   .img-strip{grid-template-columns:repeat(4,1fr)}
