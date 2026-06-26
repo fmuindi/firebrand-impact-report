@@ -98,9 +98,11 @@ a{color:inherit;text-decoration:none}
    TOTALS BAND
 ════════════════════════════════════════ */
 .totals-band{background:linear-gradient(135deg,var(--orange) 0%,var(--gold) 50%,#e07010 100%)}
-.totals-band-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);padding:0 20px}
+.totals-band-inner{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);padding:0}
 .t-pill{padding:20px 12px;text-align:center;border-bottom:1px solid rgba(255,255,255,.15);display:flex;flex-direction:column;align-items:center;justify-content:center}
 .t-pill:nth-child(1) .t-num,.t-pill:nth-child(2) .t-num{font-size:clamp(20px,3.8vw,34px)}
+.t-pill:nth-child(odd):not(:last-child){border-right:1px solid rgba(255,255,255,.15)}
+.t-pill:last-child{grid-column:1/-1}
 .t-num{font-family:'Merriweather',serif;font-size:clamp(14px,2.3vw,24px);font-weight:900;color:#fff;line-height:1;display:block;margin-bottom:4px;white-space:nowrap}
 .t-lbl{font-size:10px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.9);line-height:1.3;max-width:100%}
 
@@ -286,9 +288,10 @@ a{color:inherit;text-decoration:none}
   .nav-links{display:flex}
   .hero-ctas{flex-direction:row;justify-content:center}
   .hero-give{display:inline-block;width:auto;max-width:none}
-  .totals-band-inner{grid-template-columns:repeat(5,1fr);max-width:1000px}
+  .totals-band-inner{grid-template-columns:repeat(5,1fr);max-width:1000px;padding:0 20px}
   .t-pill{border-right:1px solid rgba(255,255,255,.2);border-bottom:none;padding:24px 14px}
-  .t-pill:last-child{border-right:none}
+  .t-pill:nth-child(odd):not(:last-child){border-right:1px solid rgba(255,255,255,.2)}
+  .t-pill:last-child{border-right:none;grid-column:auto}
   .img-strip{grid-template-columns:repeat(4,1fr)}
   .img-strip img{aspect-ratio:auto;height:200px}
   .card-hrow{flex-direction:row;align-items:flex-start;justify-content:space-between;gap:20px}
